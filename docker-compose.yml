@@ -18,6 +18,10 @@ services:
       MINIO_BROWSER_REDIRECT_URL: ${MINIO_BROWSER_REDIRECT_URL}
     volumes:
       - ./data:/data
+    deploy:
+      resources:
+        limits:
+          memory: 1G
     networks:
       - docker_network
 
