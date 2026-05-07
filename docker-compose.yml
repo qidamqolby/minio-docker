@@ -5,28 +5,21 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    command: server /data --console-address "0.0.0.0:9001" --address "0.0.0.0:9000"
+    command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
       - "9001:9001"
     environment:
-      - MINIO_API_ROOT_ACCESS=on
-      # Recommended: Set the Server URL to help with S3 Signature generation
-      - MINIO_SERVER_URL=${MINIO_SERVER_URL}
-      # This maps your .env variable to the internal MinIO setting
-      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+
+      # Optional
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      MINIO_BROWSER_REDIRECT_URL: ${MINIO_BROWSER_REDIRECT_URL}
     volumes:
       - ./data:/data
     networks:
       - docker_network
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-
-volumes:
-  data:
-    driver: local
 
 networks:
   docker_network:
