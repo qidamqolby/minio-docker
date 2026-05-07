@@ -1,29 +1,31 @@
-# Local MinIO (S3) with Docker Compose
+# Local MinIO — Quick start
 
-Copy `.env.example` to `.env` and set secure credentials:
+1. Copy the example env and set credentials:
 
 ```bash
 cp .env.example .env
-# edit .env to set MINIO_ROOT_USER and MINIO_ROOT_PASSWORD
+# edit .env and set MINIO_ROOT_USER and MINIO_ROOT_PASSWORD
 ```
 
-Start MinIO:
+2. Start MinIO:
 
 ```bash
 cd container/docker-minio
 docker compose up -d
 ```
 
-Console: http://localhost:9001
-S3 endpoint: http://localhost:9000
+3. Access:
 
-Verify with AWS CLI (example):
+- Console: http://localhost:9001
+- S3 endpoint: http://localhost:9000
+
+4. Quick verify (optional):
 
 ```bash
-# configure a profile named 'minio' using values from .env
-aws configure set aws_access_key_id $(grep MINIO_ROOT_USER .env | cut -d'=' -f2) --profile minio
-aws configure set aws_secret_access_key $(grep MINIO_ROOT_PASSWORD .env | cut -d'=' -f2) --profile minio
+# replace placeholders with values from your .env
+aws configure set aws_access_key_id <MINIO_ROOT_USER> --profile minio
+aws configure set aws_secret_access_key <MINIO_ROOT_PASSWORD> --profile minio
 aws --endpoint-url http://localhost:9000 --profile minio s3 ls
 ```
 
-Optional: use the MinIO Client (`mc`) to create buckets and manage objects.
+That's it — MinIO should now be running locally.
